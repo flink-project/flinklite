@@ -30,3 +30,11 @@
 
 # Debug files
 *.dSYM/
+*.d
+*.atsuo
+*.eep
+Flink/Debug/Flink.lss
+*.map
+Flink/Debug/Flink.srec
+Flink/Debug/Makefile
+*.mk
