@@ -30,5 +30,6 @@ void initBoard(void) {
 	#endif
 	PORTB |= (1 << SPI_SS);		// chip select high
 	
+	asm volatile ("nop");	// sync
 	
 } // initBoard
