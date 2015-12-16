@@ -126,10 +126,19 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ain.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="aout.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="board.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="board.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="counter.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="dio.c">
@@ -145,6 +154,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="info.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ppwa.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="pwm.c">
@@ -166,6 +181,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="valid.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="wd.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

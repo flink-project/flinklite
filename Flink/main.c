@@ -15,7 +15,7 @@
 int main(void)
 {
 	uint8_t val;
-	
+	char description[48];
 	initBoard();
 	flink_spi_init();
 	
@@ -63,6 +63,11 @@ int main(void)
 	
 	flink_dio_set_direction(&myGPIO, 0x02, 0x01);	// LEDR0
 	flink_dio_set_direction(&myGPIO, 0x03, 0x01);	// LEDR1
+	
+	flink_pwm_set_period(&myPWM,1,125);
+	flink_pwm_set_hightime(&myPWM,1,10);
+	
+	flink_info_get_description(&myInfo, description);
 	
 	while(1) {
 		

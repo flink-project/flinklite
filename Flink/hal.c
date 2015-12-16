@@ -85,36 +85,96 @@ int flink_write_bit(flink_subdev* subdev, uint32_t offset, uint8_t bit, void* wd
 
 
 size_t flink_write(flink_subdev* subdev, uint32_t offset, uint8_t size, void* wdata) {
-	// TODO: Code is missing
+	
+ 	// Check data pointer
+ 	if(wdata == NULL) {
+// 		flink_error(FLINK_ENULLPTR);
+ 		return EXIT_ERROR;
+ 	}
+// 	
+ 	// Check flink subdevice structure
+ 	if(!validate_flink_subdev(subdev)) {
+// 		flink_error(FLINK_EINVALDEV);
+ 		return EXIT_ERROR;
+ 	}
+ 	
+	if (offset > subdev->mem_size) {
+		return -1;
+	}
+	switch(size) {
+		case 1: {
+			// 8 Bit not supported
+			return -1;
+		}
+		case 2: {
+			// 16 Bit not supported
+			return -1;
+		}
+		case 4: {
+			uint32_t wdata = 0;
+			mFlinkBus->write32(subdev->base_addr + offset, wdata);
+			return sizeof(wdata);
+		}
+		default:
+		return -1;
+	}
+	return 0;
+}
+
+/**
+ * @brief Read from a flink subdevice.
+ * @param subdev: Subdevice to read from.
+ * @param offset: Read offset, relative to the subdevice base address.
+ * @param size: Nof bytes to read.
+ * @param rdata: Pointer to a buffer where the read bytes are written to.
+ * @return ssize_t: Nof bytes read from the subdevcie or a negative error code.
+ */
+size_t flink_read(flink_subdev* subdev, uint32_t offset, uint8_t size, void* rdata) {
 // 	int res = 0;
-// 	ssize_t write_size = 0;
+// 	ssize_t read_size = 0;
 // 	ioctl_container_t ioctl_arg;
 // 	ioctl_arg.subdevice = subdev->id;
 // 	ioctl_arg.offset    = offset;
 // 	ioctl_arg.size      = size;
-// 	ioctl_arg.data      = wdata;
+// 	ioctl_arg.data      = rdata;
 // 	
-// 	// Check data pointer
-// 	if(wdata == NULL) {
-// 		flink_error(FLINK_ENULLPTR);
-// 		return EXIT_ERROR;
-// 	}
-// 	
-// 	// Check flink subdevice structure
-// 	if(!validate_flink_subdev(subdev)) {
-// 		flink_error(FLINK_EINVALDEV);
-// 		return EXIT_ERROR;
-// 	}
-// 	
-// 	// write data to device
-// 	write_size = flink_ioctl(subdev->parent, SELECT_AND_WRITE, &ioctl_arg);
-// 	if(write_size == -1) {
-// 		libc_error();
-// 		return EXIT_ERROR;
-// 	}
-// 	
+	// Check data pointer
+	if(rdata == NULL) {
+//		flink_error(FLINK_ENULLPTR);
+		return EXIT_ERROR;
+	}
+	
+	// Check flink subdevice structure
+	if(!validate_flink_subdev(subdev)) {
+//		flink_error(FLINK_EINVALDEV);
+		return EXIT_ERROR;
+	}
+// 
+			
+			if (offset > subdev->mem_size) {
+				return -1;
+			}
+			switch(size) {
+				case 1: {
+					// 8 Bit data not supported
+					return -1;
+				}
+				case 2: {
+					// 16 Bit data not supported
+					return -1;
+				}
+				case 4: {
+					uint32_t rdata = 0;
+					rdata = mFlinkBus->read32(subdev->base_addr + offset);
+					return sizeof(rdata);
+				}
+				default:
+				return -1;
+			}
+	
 	return 0;
 }
+
 
 //void flink_device_init(struct flink_device* fdev, struct flink_bus_ops* bus_ops, struct module* mod) {
 void flink_device_init(struct flink_bus_ops* bus_ops) {
