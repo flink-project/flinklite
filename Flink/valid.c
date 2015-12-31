@@ -21,6 +21,18 @@
 #include "valid.h"
 
 /**
+ * @brief Checks if flink device was opened.
+ * @param dev: flink device.
+ * @return int: 1 if valid, 0 if not valid.
+ */
+int validate_flink_dev(flink_dev* dev) {
+	if(dev != 0) {
+		return 1; // device struct valid
+	}
+	return 0;
+}
+
+/**
  * @brief Checks if flink subdevice belongs to the device.
  * @param dev: flink subdevice.
  * @return int: 1 if valid, 0 if not valid.

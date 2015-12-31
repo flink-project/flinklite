@@ -23,18 +23,16 @@
 #define FLINKLIB_TYPES_H_
 
 //#include "stdint.h"
-//#include "flinklib.h"
+#include "flinklib.h"
+#include <avr/io.h>
 
-typedef unsigned char u8;
-typedef unsigned char uint8_t;
-typedef unsigned char bool;
-typedef unsigned long uint32_t;
-typedef unsigned int u16;
-typedef unsigned long u32;
-typedef unsigned int uint16_t;
-
-typedef struct _flink_dev flink_dev;
-typedef struct _flink_subdev flink_subdev;
+// typedef unsigned char u8;
+// typedef unsigned char uint8_t;
+// typedef unsigned char bool;
+// typedef unsigned long uint32_t;
+// typedef unsigned int u16;
+// typedef unsigned long u32;
+// typedef unsigned int uint16_t;
 
 struct _flink_dev {
 	//int            fd;					/// File descriptor of open flink device file

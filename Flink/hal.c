@@ -10,7 +10,7 @@
 #include "flink.h"
 #include "types.h"
 #include "valid.h"
-
+#include "list.h"
 
 // Communication bus
 typedef struct flink_bus_ops FlinkBus  ;
@@ -177,7 +177,9 @@ size_t flink_read(flink_subdev* subdev, uint32_t offset, uint8_t size, void* rda
 
 
 //void flink_device_init(struct flink_device* fdev, struct flink_bus_ops* bus_ops, struct module* mod) {
-void flink_device_init(struct flink_bus_ops* bus_ops) {
+void flink_device_init(struct flink_device* fdev, struct flink_bus_ops* bus_ops) {
+	INIT_LIST_HEAD(&(fdev->list));
+	INIT_LIST_HEAD(&(fdev->subdevices));
 	mFlinkBus = bus_ops;
 }
 

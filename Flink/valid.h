@@ -23,6 +23,8 @@
 
 #include "types.h"
 
+
+int validate_flink_dev(flink_dev* dev);
 int validate_flink_subdev(flink_subdev* subdev);
 
 #endif // FLINKLIB_VALID_H_

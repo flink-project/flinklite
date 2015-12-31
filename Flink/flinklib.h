@@ -17,7 +17,6 @@
 //
 //#include <stdint.h>
 //#include <sys/types.h>
-#include "flink.h"
 #include <avr/io.h>
 #include <stddef.h>
 
@@ -46,7 +45,7 @@ typedef struct _flink_subdev flink_subdev;
 
 // ############ Base operations ############
 
-flink_dev* flink_open(const char* file_name);
+//flink_dev* flink_open(const char* file_name);
 int        flink_close(flink_dev* dev);
 
 
@@ -80,21 +79,21 @@ int     flink_write_bit(flink_subdev* subdev, uint32_t offset, uint8_t bit, void
 //#define EXCL_ACCESS						1
 //
 // General
-// int           flink_get_nof_subdevices(flink_dev* dev);
-// flink_subdev* flink_get_subdevice_by_id(flink_dev* dev, uint8_t subdev_id);
-// flink_subdev* flink_get_subdevice_by_unique_id(flink_dev* dev, uint8_t unique_id);
+int           flink_get_nof_subdevices(flink_dev* dev);
+//flink_subdev* flink_get_subdevice_by_id(flink_dev* dev, uint8_t subdev_id);
+flink_subdev* flink_get_subdevice_by_unique_id(flink_dev* dev, uint8_t unique_id);
 // 
-// uint8_t       flink_subdevice_get_id(flink_subdev* subdev);
-// uint16_t      flink_subdevice_get_function(flink_subdev* subdev);
-// uint8_t       flink_subdevice_get_subfunction(flink_subdev* subdev);
-// uint8_t       flink_subdevice_get_function_version(flink_subdev* subdev);
-// uint32_t      flink_subdevice_get_baseaddr(flink_subdev* subdev);
-// uint32_t      flink_subdevice_get_memsize(flink_subdev* subdev);
-// uint32_t      flink_subdevice_get_nofchannels(flink_subdev* subdev);
-// uint32_t      flink_subdevice_get_unique_id(flink_subdev* subdev);
-// int           flink_subdevice_select(flink_subdev* subdev, uint8_t exclusive);
-// int           flink_subdevice_reset(flink_subdev* subdev);
-// const char*   flink_subdevice_id2str(uint8_t subdev_id);
+uint8_t       flink_subdevice_get_id(flink_subdev* subdev);
+uint16_t      flink_subdevice_get_function(flink_subdev* subdev);
+uint8_t       flink_subdevice_get_subfunction(flink_subdev* subdev);
+uint8_t       flink_subdevice_get_function_version(flink_subdev* subdev);
+uint32_t      flink_subdevice_get_baseaddr(flink_subdev* subdev);
+uint32_t      flink_subdevice_get_memsize(flink_subdev* subdev);
+uint32_t      flink_subdevice_get_nofchannels(flink_subdev* subdev);
+uint32_t      flink_subdevice_get_unique_id(flink_subdev* subdev);
+int           flink_subdevice_select(flink_subdev* subdev, uint8_t exclusive);
+int           flink_subdevice_reset(flink_subdev* subdev);
+const char*   flink_subdevice_id2str(uint8_t subdev_id);
 
 // Info
 int flink_info_get_description(flink_subdev* subdev, char* value);

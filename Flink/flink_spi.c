@@ -31,6 +31,8 @@
 #include "SPI.h"
 #include "types.h"
 #include "hal.h"
+#include "list.h"
+#include "flink_core.h"
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -157,44 +159,44 @@ int spi_write32(u32 addr, u32 val) {
 // 	.address_space_size = spi_address_space_size
  };
  
- void flink_spi_init() {
-	 flink_device_init(&spi_bus_ops);
- }
+//  void flink_spi_init() {
+// 	 flink_device_init(&spi_bus_ops);
+//  }
 
 // ############ Driver probe and release functions ############
-// static int flink_spi_probe(struct spi_device *spi) {
-// 	struct flink_device* fdev;
-// 	struct spi_data* spiData;
-// 
-// 	#if defined(DBG)
-// 		//printk(KERN_DEBUG "[%s] Run probe\n", MODULE_NAME);
-// 	#endif
-// 
-// 	//spiData = kzalloc(sizeof(*spiData), GFP_KERNEL);	// Allocate driver data
-// 	spiData = malloc(sizeoff(*spiData));
-// 
-// 	if (!spiData) return -1;//-ENOMEM;
-// 	// Initialize the driver data
-// 	spiData->spi = spi;
-// 	//spin_lock_init(&spiData->spi_lock);
-// 
-// 	spi_set_drvdata(spi, spiData);
-// 
-// 	spiData->mem_size = dev_mem_length;
-// 	spiData->txBuf = malloc(BUFSIZE);	//kmalloc(BUFSIZE, GFP_KERNEL);	// Allocate buffers
-// 	spiData->rxBuf = malloc(BUFSIZE); 	//kmalloc(BUFSIZE, GFP_KERNEL);
-// 	if (!spiData->txBuf || !spiData->rxBuf) {
-// 		kfree(spiData);
-// 		return -1;//-ENOMEM;
-// 	}
-// 
-// 	fdev = flink_device_alloc();
-// 	flink_device_init(fdev, &spi_bus_ops, THIS_MODULE);
-// 	fdev->bus_data = spiData;
-// 	flink_device_add(fdev);	// creates device nodes
-// 
-// 	return 0;
-// }
+static int flink_spi_probe() {
+	struct flink_device* fdev;
+	//struct spi_data* spiData;
+
+	//#if defined(DBG)
+	//	printk(KERN_DEBUG "[%s] Run probe\n", MODULE_NAME);
+	//#endif
+
+	//spiData = kzalloc(sizeof(*spiData), GFP_KERNEL);	// Allocate driver data
+	//spiData = malloc(sizeof(*spiData));
+
+	//if (!spiData) return -1;//-ENOMEM;
+	// Initialize the driver data
+	//spiData->spi = spi;
+	//spin_lock_init(&spiData->spi_lock);
+
+	//spi_set_drvdata(spi, spiData); // Linux function
+
+	//spiData->mem_size = dev_mem_length;
+	//spiData->txBuf = malloc(BUFSIZE);	//kmalloc(BUFSIZE, GFP_KERNEL);	// Allocate buffers
+	//spiData->rxBuf = malloc(BUFSIZE); 	//kmalloc(BUFSIZE, GFP_KERNEL);
+	//if (!spiData->txBuf || !spiData->rxBuf) {
+	//	free(spiData);
+	//	return -1;//-ENOMEM;
+	//}
+
+	fdev = flink_device_alloc();
+	flink_device_init(fdev, &spi_bus_ops);
+	//fdev->bus_data = spiData;
+	flink_device_add(fdev);	// creates device nodes
+
+	return 0;
+}
 
 // static int flink_spi_remove(struct spi_device *spi) {
 // 	struct spi_data* spiData = spi_get_drvdata(spi);

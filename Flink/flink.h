@@ -11,6 +11,9 @@
 //#include <linux/spinlock_types.h>
 //#include <linux/list.h>
 //#include <linux/fs.h>
+#include "list.h"
+#include "types.h"
+#include "flinklib.h"
 #include <avr/io.h>
 
 //typedef unsigned int ssize_t;	//TODO: Type?
@@ -30,64 +33,82 @@
  * As a parameter a pointer to a file descriptor is passed. Within this structure the field @private_data
  * will hold the information about which device and subdevice will be targeted.
  */
-// struct flink_private_data {
-// 	struct flink_device*    fdev;
-// 	struct flink_subdevice* current_subdevice;
-// };
+struct flink_private_data {
+	struct flink_dev*    fdev;
+	struct flink_subdev* current_subdevice;
+};
+
+
+// ############ flink bus operations ############
+/// @brief Functions to communicate with various bus communication modules
+struct flink_bus_ops {
+	//uint8_t  (*read8)(struct flink_dev*, uint32_t addr);			/// read 1 byte
+	//uint16_t (*read16)(struct flink_dev*, uint32_t addr);			/// read 2 bytes
+	uint32_t (*read32)(uint32_t addr);			/// read 4 bytes
+	//int (*write8)(struct flink_dev*, uint32_t addr, uint8_t val);		/// write 1 byte
+	//int (*write16)(struct flink_dev*, uint32_t addr, uint16_t val);	/// write 2 bytes
+	int (*write32)(uint32_t addr, uint32_t val);	/// write 4 bytes
+	//uint32_t (*address_space_size)(struct flink_dev*);		/// get address space size
+};
 
 // ############ flink subdevice ############
 #define MAX_NOF_SUBDEVICES 256
-/// @brief Describes a subdevice
-//struct flink_subdevice {
-	//struct list_head     list;				/// Linked list of all subdevices of a device
-// 	struct flink_device* parent;			/// Pointer to device which this subdevice belongs
-// 	uint8_t              id;				/// Identifies a subdevice within a device
-// 	uint16_t             function_id;		/// Identifies the function of the subdevice
-// 	uint8_t              sub_function_id;	/// Identifies the subtype of the subdevice
-// 	uint8_t              function_version;	/// Version of the function
-// 	uint32_t             base_addr;			/// Base address (logical)
-// 	uint32_t             mem_size;			/// Address space size
-// 	uint32_t             nof_channels;		/// Number of channels
-// 	uint32_t             unique_id;			/// unique id for this subdevice
-// };
-
-
-// ############ flink device ############
-/// @brief Describes a device
-struct flink_device {
+// @brief Describes a subdevice
+//struct flink_subdev {
+	////struct list_head     list;				/// Linked list of all subdevices of a device
+	//struct flink_dev* parent;			/// Pointer to device which this subdevice belongs
+	//uint8_t              id;				/// Identifies a subdevice within a device
+	//uint16_t             function_id;		/// Identifies the function of the subdevice
+	//uint8_t              sub_function_id;	/// Identifies the subtype of the subdevice
+	//uint8_t              function_version;	/// Version of the function
+	//uint32_t             base_addr;			/// Base address (logical)
+	//uint32_t             mem_size;			/// Address space size
+	//uint32_t             nof_channels;		/// Number of channels
+	//uint32_t             unique_id;			/// unique id for this subdevice
+//};
+//
+//
+//// ############ flink device ############
+///// @brief Describes a device
+//struct flink_dev {
 	//struct list_head      list;			/// Linked list of all devices
-	uint8_t               id;				/// Identifies a device
-	uint8_t               nof_subdevices;	/// Number of subdevices
+	//uint8_t               id;				/// Identifies a device
+	//uint8_t               nof_subdevices;	/// Number of subdevices
 	//struct list_head      subdevices;		/// Linked list of all subdevices of this device
-	struct flink_bus_ops* bus_ops;			/// Pointer to structure defining the bus operation functions of this device
-	struct module*        appropriated_module;	/// Pointer to bus interface modul used for this device 
-	void*                 bus_data;			/// Bus specific data
-	//struct cdev*          char_device;		/// Pointer to cdev structure
-	//struct device*        sysfs_device;		/// Pointer to sysfs device structure
-};
+	//struct flink_bus_ops* bus_ops;			/// Pointer to structure defining the bus operation functions of this device
+	////struct module*        appropriated_module;	/// Pointer to bus interface modul used for this device 
+	//void*                 bus_data;			/// Bus specific data
+	////struct cdev*          char_device;		/// Pointer to cdev structure
+	////struct device*        sysfs_device;		/// Pointer to sysfs device structure
+//};
 
 // ############ Public functions ############
-//extern struct flink_device*		flink_device_alloc(void);
-extern void                    flink_device_init(struct flink_bus_ops* bus_ops);
-extern void						flink_spi_init();
+//extern struct flink_dev*		flink_device_alloc(void);
+extern void                    flink_device_init(struct flink_dev* fdev, struct flink_bus_ops* bus_ops);
+extern void				       flink_spi_init();
 
-// extern int                     flink_device_add(struct flink_device* fdev);
-// extern int                     flink_device_remove(struct flink_device* fdev);
-// extern int                     flink_device_delete(struct flink_device* fdev);
-// extern struct flink_device*    flink_get_device_by_id(uint8_t flink_device_id);
-// extern struct flink_device*    flink_get_device_by_cdev(struct cdev* char_device);
-// extern struct list_head*       flink_get_device_list(void);
+extern int                     flink_device_add(struct flink_dev* fdev);
+extern int                     flink_device_remove(struct flink_dev* fdev);
+extern int                     flink_device_delete(struct flink_dev* fdev);
+extern struct flink_dev*    flink_get_device_by_id(uint8_t flink_dev_id);
+//extern struct flink_device*    flink_get_device_by_cdev(struct cdev* char_device);
+extern struct list_head*       flink_get_device_list(void);
 
-// extern struct flink_subdevice* flink_subdevice_alloc(void);
-// extern void                    flink_subdevice_init(struct flink_subdevice* fsubdev);
-// extern int                     flink_subdevice_add(struct flink_device* fdev, struct flink_subdevice* fsubdev);
-// extern int                     flink_subdevice_remove(struct flink_subdevice* fsubdev);
-// extern int                     flink_subdevice_delete(struct flink_subdevice* fsubdev);
-// extern struct flink_subdevice* flink_get_subdevice_by_id(struct flink_device* fdev, uint8_t flink_device_id);
+extern struct flink_subdev* flink_subdevice_alloc(void);
+extern void                    flink_subdevice_init(struct flink_subdev* fsubdev);
+extern int                     flink_subdevice_add(struct flink_dev* fdev, struct flink_subdev* fsubdev);
+extern int                     flink_subdevice_remove(struct flink_subdev* fsubdev);
+extern int                     flink_subdevice_delete(struct flink_subdev* fsubdev);
+flink_subdev*    flink_get_subdevice_by_id(flink_dev* dev, uint8_t subdev_id);
+	
 // 
 // extern struct class*           flink_get_sysfs_class(void);
 
 //extern int                     flink_select_subdevice(struct file* f, uint8_t subdevice, uint8_t exclusive);
+
+// flink_core methods
+extern int flink_core_open(struct flink_private_data*);
+extern int flink_core_relase(struct flink_private_data* f);
 
 // ############ Constants ############
 #define MAX_ADDRESS_SPACE 0x10000	/// Maximum address space for a flink device
@@ -140,6 +161,6 @@ extern void						flink_spi_init();
 // };
 
 // size of struct 'flink_subdevice' without linked list information (in bytes)
-#define FLINKLIB_SUBDEVICE_SIZE		(sizeof(struct flink_subdevice)-offsetof(struct flink_subdevice,id))
+#define FLINKLIB_SUBDEVICE_SIZE		(sizeof(struct flink_subdev)-offsetof(struct flink_subdev,id))
 
 #endif /* FLINK_H_ */
