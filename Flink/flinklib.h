@@ -14,17 +14,21 @@
 //
 #ifndef FLINKLIB_H_
 #define FLINKLIB_H_
-//
+
 //#include <stdint.h>
 //#include <sys/types.h>
+#include "types.h"
 #include <avr/io.h>
 #include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-//
-//
+
+// ############ Forward declarations ############
+typedef struct _flink_dev    flink_dev;
+typedef struct _flink_subdev flink_subdev;
+
 //typedef enum {
 //	SELECT_SUBDEVICE 		= 0x10,
 //	SELECT_SUBDEVICE_EXCL	= 0x11,
@@ -37,15 +41,16 @@ extern "C" {
 //	SELECT_AND_READ			= 0x42,
 //	SELECT_AND_WRITE		= 0x43
 //} ioctl_cmd_t;
-//// ############ Device handles ############
-//
+
+// ############ Device handles ############
+
 typedef struct _flink_dev    flink_dev;
 typedef struct _flink_subdev flink_subdev;
 
 
-// ############ Base operations ############
+ // ############ Base operations ############
 
-//flink_dev* flink_open(const char* file_name);
+flink_dev* flink_open();
 int        flink_close(flink_dev* dev);
 
 
@@ -58,7 +63,7 @@ int     flink_read_bit(flink_subdev* subdev, uint32_t offset, uint8_t bit, void*
 int     flink_write_bit(flink_subdev* subdev, uint32_t offset, uint8_t bit, void* wdata);
 
 
-// ############ Subdevice operations ############
+ // ############ Subdevice operations ############
 
 #define REGISTER_WITH						4	// byte
 #define HEADER_SIZE						16	// byte
@@ -80,7 +85,7 @@ int     flink_write_bit(flink_subdev* subdev, uint32_t offset, uint8_t bit, void
 //
 // General
 int           flink_get_nof_subdevices(flink_dev* dev);
-//flink_subdev* flink_get_subdevice_by_id(flink_dev* dev, uint8_t subdev_id);
+flink_subdev* flink_get_subdevice_by_id(flink_dev* dev, uint8_t subdev_id);
 flink_subdev* flink_get_subdevice_by_unique_id(flink_dev* dev, uint8_t unique_id);
 // 
 uint8_t       flink_subdevice_get_id(flink_subdev* subdev);
@@ -134,13 +139,9 @@ int flink_wd_set_counter(flink_subdev* subdev, uint32_t value);
 int flink_wd_arm(flink_subdev* subdev);
 
 
-// ############ Exit states ############
+ // ############ Exit states ############
 
 #define EXIT_SUCCESS	0
 #define EXIT_ERROR		-1
-
-#ifdef __cplusplus
-} // end extern "C"
-#endif
 
 #endif // FLINKLIB_H_

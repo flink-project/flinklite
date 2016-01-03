@@ -5,17 +5,23 @@
  *  Author: Raphael Lauber
  */ 
 
+#include "types.h"
 #include "hal.h"
 #include "flinklib.h"
 #include "flink.h"
-#include "types.h"
 #include "valid.h"
 #include "list.h"
+#include <avr/io.h>
+#include <stdarg.h>
+#include <stdlib.h>
 
 // Communication bus
-typedef struct flink_bus_ops FlinkBus  ;
+typedef struct flink_bus_ops FlinkBus ;
 FlinkBus* mFlinkBus;
 
+void flink_set_bus(struct flink_bus_ops* bus_channel) {
+	mFlinkBus = bus_channel;
+}
 
 /**
  * @brief Read a single bit from a flink subdevice
@@ -174,12 +180,3 @@ size_t flink_read(flink_subdev* subdev, uint32_t offset, uint8_t size, void* rda
 	
 	return 0;
 }
-
-
-//void flink_device_init(struct flink_device* fdev, struct flink_bus_ops* bus_ops, struct module* mod) {
-void flink_device_init(struct flink_device* fdev, struct flink_bus_ops* bus_ops) {
-	INIT_LIST_HEAD(&(fdev->list));
-	INIT_LIST_HEAD(&(fdev->subdevices));
-	mFlinkBus = bus_ops;
-}
-

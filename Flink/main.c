@@ -7,7 +7,7 @@
 
 #include "board.h"
 //#include "SPI.h"
-#include "flink.h"
+#include "flinklib.h"
 #include "types.h"
 #include <avr/io.h>
 #include <util/delay.h>
@@ -25,14 +25,25 @@ int main(void)
 	uint8_t subdevice_id = 1;
 	int error = 0;
 	
-	flink_open();
+	dev = flink_open();
 	
-	subdev = flink_get_subdevice_by_id(dev, subdevice_id);
+	subdev = flink_get_subdevice_by_unique_id(dev, 3); // info device
+	error = flink_info_get_description(subdev, description);
 	
+	subdev = flink_get_subdevice_by_unique_id(dev, 1); // GPIO device
 	error = flink_dio_set_direction(subdev, 0x02, 0x01);
-	error = flink_dio_get_value(subdev,0x00,0);	// SW0 --> LEDR0
-	error = flink_dio_set_value(subdev,0x02,1);
 	
+	
+	
+	
+	while(1) {
+ 		
+ 		PORTA = (PINA & 0x01)^0x01;	// Toggle LED
+ 		error = flink_dio_get_value(subdev,0x00,&val);	// SW0 --> LEDR0
+		error = flink_dio_set_value(subdev,0x02,val);
+ 		_delay_ms(500);
+		 
+ 	}
 	
 // 	flink_dev	 myFdev;
 // 	flink_subdev* myFsubdevs[3];

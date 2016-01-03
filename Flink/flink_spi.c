@@ -27,12 +27,13 @@
 //#include <linux/delay.h>
 //#include <asm/uaccess.h>
 
+#include "types.h"
 #include "flink.h"
 #include "SPI.h"
-#include "types.h"
 #include "hal.h"
 #include "list.h"
 #include "flink_core.h"
+#include "flink_spi.h"
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -44,6 +45,8 @@
 //void list;	// TODO: linux/list.h?
 uint8_t mSPIAdr[8];
 uint8_t mSPIData[4];
+
+//static int flink_spi_probe();
 
 // ############ Module Parameters ############
 //static unsigned int dev_mem_length = MAX_ADDRESS_SPACE;
@@ -72,12 +75,12 @@ uint8_t mSPIData[4];
 // 	return 0;
 // }
 
-u32 spi_read32(u32 addr) {
+uint32_t spi_read32(uint32_t addr) {
 	//ssize_t	status = 0;
 	// TODO: Extract data from fdev->bus_data
 	// TODO: spi_data.txBuf/rxBuf = u32
 	//struct spi_data* data = (struct spi_data*)fdev->bus_data;
-	u32 val;
+	uint32_t val;
 	//spi_message_init(&m1);
 	//spi_message_init(&m2);
 	mSPIAdr[0] = (addr & 0xff000000)  >> 24;
@@ -98,7 +101,7 @@ u32 spi_read32(u32 addr) {
 	//status = spi_sync(data->spi, &m2);
 	//val = *data->rxBuf;
 	SPI_WriteRead(mSPIAdr,4,mSPIData,4);
-	val = ((u32)mSPIData[0] << 24) | ((u32)mSPIData[1] << 16) | ((u32)mSPIData[2] << 8) | (mSPIData[3]);
+	val = ((uint32_t)mSPIData[0] << 24) | ((uint32_t)mSPIData[1] << 16) | ((uint32_t)mSPIData[2] << 8) | (mSPIData[3]);
 	//printk(KERN_DEBUG "[%s] read from addr: 0x%x\n", MODULE_NAME, (u32)*data->txBuf);
 	//printk(KERN_DEBUG "[%s] read: 0x%x\n", MODULE_NAME, val);
 	return val;
@@ -114,7 +117,7 @@ u32 spi_read32(u32 addr) {
 // 	return -1;
 // }
 
-int spi_write32(u32 addr, u32 val) {
+int spi_write32(uint32_t addr, uint32_t val) {
 	//ssize_t	status = 0;
 	// TODO: Extract data from fdev->bus_data
 	//struct spi_data* data = (struct spi_data*)fdev->bus_data;
@@ -144,28 +147,33 @@ int spi_write32(u32 addr, u32 val) {
 	return 0;
 }
 
-// u32 spi_address_space_size(struct flink_device* fdev) {
-// 	struct spi_data* data = (struct spi_data*)fdev->bus_data;
-// 	return (u32)(data->mem_size);
-// }
-// 
- struct flink_bus_ops spi_bus_ops = {
-// 	.read8              = spi_read8,
-// 	.read16             = spi_read16,
- 	.read32             = spi_read32,
-// 	.write8             = spi_write8,
-// 	.write16            = spi_write16,
- 	.write32            = spi_write32
-// 	.address_space_size = spi_address_space_size
- };
+uint32_t spi_address_space_size(flink_dev* fdev) {
+	//struct spi_data* data = (struct spi_data*)fdev->bus_data;
+ 	//return (u32)(data->mem_size);
+	 return MAX_ADDRESS_SPACE;
+}
+ 
+
  
 //  void flink_spi_init() {
 // 	 flink_device_init(&spi_bus_ops);
 //  }
 
+
+struct flink_bus_ops spi_bus_ops = {
+	// 	.read8              = spi_read8,
+	// 	.read16             = spi_read16,
+	.read32             = spi_read32,
+	// 	.write8             = spi_write8,
+	// 	.write16            = spi_write16,
+	.write32            = spi_write32,
+	.address_space_size = spi_address_space_size,
+	//.probe				 = flink_spi_probe
+};
+
 // ############ Driver probe and release functions ############
-static int flink_spi_probe() {
-	struct flink_device* fdev;
+// static int flink_spi_probe() {
+// 	flink_dev* fdev;
 	//struct spi_data* spiData;
 
 	//#if defined(DBG)
@@ -190,13 +198,13 @@ static int flink_spi_probe() {
 	//	return -1;//-ENOMEM;
 	//}
 
-	fdev = flink_device_alloc();
-	flink_device_init(fdev, &spi_bus_ops);
-	//fdev->bus_data = spiData;
-	flink_device_add(fdev);	// creates device nodes
-
-	return 0;
-}
+// 	fdev = flink_device_alloc();
+// 	flink_device_init(fdev, &spi_bus_ops);
+// 	//fdev->bus_data = spiData;
+// 	flink_device_add(fdev);	// creates device nodes
+// 
+// 	return 0;
+// }
 
 // static int flink_spi_remove(struct spi_device *spi) {
 // 	struct spi_data* spiData = spi_get_drvdata(spi);
@@ -225,14 +233,3 @@ static int flink_spi_probe() {
 // 
 // 	return 0;
 // }
-
-// ############ Data structures for spi driver ############
-// static struct spi_driver flink_spi_driver = {
-// 	.driver = {
-// 		.name =	"flink_spi",
-// 		.owner = THIS_MODULE,
-// 	},
-// 	.probe = flink_spi_probe,
-// 	.remove = __exit_p(flink_spi_remove),
-// };
-
