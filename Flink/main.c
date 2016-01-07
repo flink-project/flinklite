@@ -19,28 +19,28 @@ int main(void)
 	initBoard();
 	//flink_spi_init();
 	
-	
+	static flink_private_data* p_data;
 	flink_dev*    dev;
 	flink_subdev* subdev;
 	uint8_t subdevice_id = 1;
 	int error = 0;
 	
-	dev = flink_open();
+	dev = flink_open(p_data);
 	
 	subdev = flink_get_subdevice_by_unique_id(dev, 3); // info device
 	error = flink_info_get_description(subdev, description);
 	
 	subdev = flink_get_subdevice_by_unique_id(dev, 1); // GPIO device
-	error = flink_dio_set_direction(subdev, 0x02, 0x01);
-	
-	
-	
+	error = flink_dio_set_direction(subdev, 0x02, 0x01);	// LEDR0
+	error = flink_dio_set_direction(subdev, 0x03, 0x01);	// LEDR1
 	
 	while(1) {
  		
  		PORTA = (PINA & 0x01)^0x01;	// Toggle LED
  		error = flink_dio_get_value(subdev,0x00,&val);	// SW0 --> LEDR0
 		error = flink_dio_set_value(subdev,0x02,val);
+		error = flink_dio_get_value(subdev,0x01,&val);	// SW1 --> LEDR1
+		error = flink_dio_set_value(subdev,0x03,val);
  		_delay_ms(500);
 		 
  	}

@@ -41,15 +41,15 @@ flink_dev* flink_device_alloc(void) {
 void flink_device_init(flink_dev* fdev, struct flink_bus_ops* bus_ops) {
 	memset(fdev, 0, sizeof(*fdev));
 	INIT_LIST_HEAD(&(fdev->list));
-	INIT_LIST_HEAD(&(fdev->subdevices->list));
+	INIT_LIST_HEAD(&(fdev->subdev_list));
 	fdev->bus_ops = bus_ops;
 }
 
 
 int flink_core_open(flink_private_data* pdata) {
 	//struct flink_device* fdev = flink_get_device_by_cdev(i->i_cdev);
-	pdata = malloc(sizeof(flink_private_data));
-	memset(pdata, 0, sizeof(*pdata));
+//	pdata = malloc(sizeof(flink_private_data));
+//	memset(pdata, 0, sizeof(*pdata));
 	//p_data->fdev = fdev;
 	//f = p_data;
 	//#if defined(DBG)
@@ -225,7 +225,7 @@ static unsigned int scan_for_subdevices(flink_dev* fdev) {
 			// if subdevice is info subdevice -> read memory length
 			if(new_subdev->function_id == INFO_FUNCTION_ID) {
 				total_mem_size = fdev->bus_ops->read32(current_address + MAIN_HEADER_SIZE + SUB_HEADER_SIZE);
-				//last_address = total_mem_size - 1; //Todo: probably a bug in FlinkVHDL
+				last_address = total_mem_size - 1; //Todo: probably a bug in FlinkVHDL
 // 				#if defined(DBG)
 // 					printk(KERN_DEBUG "[%s] Info subdevice found: total memory length=0x%x", MODULE_NAME, total_mem_size);
 // 				#endif
@@ -284,7 +284,7 @@ int flink_subdevice_add(flink_dev* fdev, flink_subdev* fsubdev) {
 		fsubdev->parent = fdev;
 		
 		// Add subdevice to device
-		list_add(&(fsubdev->list), &(fdev->subdevices->list));
+		list_add(&(fsubdev->list), &(fdev->subdev_list));
 // 		#if defined(DBG)
 // 			printk(KERN_DEBUG "[%s] Subdevice with id '%u' added to device with id '%u'.", MODULE_NAME, fsubdev->id, fdev->id);
 // 			printk(KERN_DEBUG "  -> Function:         0x%x/0x%x/0x%x", fsubdev->function_id, fsubdev->sub_function_id, fsubdev->function_version);
@@ -337,7 +337,7 @@ flink_subdev* flink_core_get_subdevice_by_id(flink_dev* fdev, uint8_t id) {
 		//#if defined(DBG)
 		//	printk(KERN_DEBUG "[%s] Looking for subdevice with id '%u' in device %u...", MODULE_NAME, id, fdev->id);
 		//#endif
-		list_for_each_entry(subdev, &(fdev->subdevices->list), list) {
+		list_for_each_entry(subdev, &(fdev->subdev_list), list) {
 			if(subdev->id == id) {
 				//#if defined(DBG)
 				//	printk(KERN_DEBUG "[%s] Subdevice with id '%u' found!", MODULE_NAME, id);

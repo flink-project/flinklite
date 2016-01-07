@@ -38,6 +38,7 @@ struct _flink_dev {
 	uint8_t					id;				/// Identifies a device
 	uint8_t					nof_subdevices;	/// Number of subdevices
 	flink_subdev*			subdevices;		/// Linked list of all subdevices of a device
+	struct list_head		subdev_list;
 	struct flink_bus_ops*	bus_ops;		/// Pointer to structure defining the bus operation functions of this device
 };
 

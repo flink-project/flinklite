@@ -29,8 +29,9 @@
 
 #include <avr/io.h>
 #include <stdlib.h>
+#include <string.h>
 
-volatile static flink_private_data* p_data;
+//static flink_private_data* p_data;
 
 /*******************************************************************
  *                                                                 *
@@ -90,7 +91,7 @@ static int get_subdevices(flink_private_data* pdata) {
 	}
 	
 	// Read nof subdevices
-	pdata->fdev->nof_subdevices = read_nof_subdevices(p_data);
+	//pdata->fdev->nof_subdevices = read_nof_subdevices(pdata);
 	
 	// Allocate memory
 	pdata->fdev->subdevices = calloc(pdata->fdev->nof_subdevices, sizeof(flink_subdev));
@@ -117,19 +118,21 @@ static int get_subdevices(flink_private_data* pdata) {
 // 				#endif
 // 				return -EINVAL;
 // 			}
-			if(id >= pdata->fdev->nof_subdevices) {
+			//if(id >= pdata->fdev->nof_subdevices) {
 				//#if defined(DBG)
 				//printk(KERN_DEBUG "  -> Illegal subdevice id");
 				//#endif
-				return -1;//EINVAL;
-			}
-			src = flink_core_get_subdevice_by_id(pdata->fdev, id);
+			//	return -1;//EINVAL;
+			//}
+			src = flink_core_get_subdevice_by_id(pdata->fdev, i);
 			if(src == NULL) {
 				//#if defined(DBG)
 				//printk(KERN_DEBUG "  -> Getting kernel subdevice structure failed.");
 				//#endif
 				return -1; //EINVAL;
 			}
+			memcpy(subdev, src, sizeof(flink_subdev));	// transfer subdevice
+			
 // 			error = copy_to_user((void __user *)arg, &(src->id), FLINKLIB_SUBDEVICE_SIZE);
 // 			if(error != 0) {
 // 				#if defined(DBG)
@@ -138,9 +141,10 @@ static int get_subdevices(flink_private_data* pdata) {
 // 				return -EINVAL;
 // 			}
 		
-		subdev->parent = src->id;
+		pdata->fdev->subdevices->parent = pdata->fdev;
 	} // for
-	
+
+	//pdata->fdev->subdevices = flink_core_get_subdevice_by_id(pdata->fdev, 1);
 	return 0;
 }
 
@@ -155,15 +159,15 @@ static int get_subdevices(flink_private_data* pdata) {
  * @param file_name: Device file (null terminated array).
  * @return flink_dev*: Pointer to the opened flink device or NULL in case of error.
  */
-flink_dev* flink_open() {
-	flink_dev* dev = 0;
-	
-	// Allocate memory for flink_t
-	dev = malloc(sizeof(flink_dev));
-	if(dev == 0) { // allocation failed
-		//libc_error();
-		return 0;
-	}
+flink_dev* flink_open(flink_private_data* p_data) {
+// 	flink_dev* dev = 0;
+// 	
+// 	// Allocate memory for flink_t
+ 	p_data = malloc(sizeof(flink_private_data));
+// 	if(dev == 0) { // allocation failed
+// 		//libc_error();
+// 		return 0;
+// 	}
 	
 	// Open device file
 	flink_core_open(p_data);
@@ -177,11 +181,11 @@ flink_dev* flink_open() {
 
 	if(get_subdevices(p_data) < 0) { // reading subdevices failed
 		//close(dev->fd);
-		free(dev);
+		//free(dev);
 		return 0;
 	}
 	
-	return dev;
+	return p_data->fdev;
 }
 
 
@@ -334,7 +338,8 @@ flink_subdev* flink_get_subdevice_by_unique_id(flink_dev* dev, uint8_t unique_id
 
 	while(subdev != NULL) {
 		if(subdev->unique_id == unique_id) {
-			return dev->subdevices;
+			//return dev->subdevices;	// Bug?
+			return subdev;
 		}
 		subdev = subdev + 1;
 	}

@@ -170,9 +170,8 @@ size_t flink_read(flink_subdev* subdev, uint32_t offset, uint8_t size, void* rda
 					return -1;
 				}
 				case 4: {
-					uint32_t rdata = 0;
-					rdata = mFlinkBus->read32(subdev->base_addr + offset);
-					return sizeof(rdata);
+					*((uint32_t*)rdata) = mFlinkBus->read32(subdev->base_addr + offset);
+					return sizeof(*((uint32_t*)rdata));
 				}
 				default:
 				return -1;

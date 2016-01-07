@@ -26,8 +26,7 @@ extern "C" {
 #endif
 
 // ############ Forward declarations ############
-typedef struct _flink_dev    flink_dev;
-typedef struct _flink_subdev flink_subdev;
+
 
 //typedef enum {
 //	SELECT_SUBDEVICE 		= 0x10,
@@ -46,11 +45,12 @@ typedef struct _flink_subdev flink_subdev;
 
 typedef struct _flink_dev    flink_dev;
 typedef struct _flink_subdev flink_subdev;
+typedef struct _flink_private_data flink_private_data;
 
 
  // ############ Base operations ############
 
-flink_dev* flink_open();
+flink_dev* flink_open(flink_private_data* p_data);
 int        flink_close(flink_dev* dev);
 
 

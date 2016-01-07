@@ -25,8 +25,8 @@
 #include "types.h"
 //#include "error.h"
 //#include "log.h"
-
 #include <avr/io.h>
+#include <string.h>
 
 /**
  * @brief Reads the description field of an info subdevice
@@ -36,6 +36,7 @@
  */
 int flink_info_get_description(flink_subdev* subdev, char* desc) {
 	uint32_t offset;
+	char tmp[4];
 	int i;
 	
 	//dbg_print("Reading description from info subdevice with id %d\n", subdev->id);
@@ -46,7 +47,13 @@ int flink_info_get_description(flink_subdev* subdev, char* desc) {
 			//libc_error();
 			return EXIT_ERROR;
 		}
-		//dbg_print("\t 0x%x\n", be16toh(*(uint32_t*)desc));	
+		//dbg_print("\t 0x%x\n", be16toh(*(uint32_t*)desc));
+		// Bring data in correct order
+		memcpy(tmp, desc, 4);
+		memcpy(desc, tmp+3, 1);
+		memcpy(desc+1, tmp+2, 1);
+		memcpy(desc+2, tmp+1, 1);
+		memcpy(desc+3, tmp, 1);			
 	}
 	return EXIT_SUCCESS;
 }
