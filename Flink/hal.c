@@ -117,9 +117,8 @@ size_t flink_write(flink_subdev* subdev, uint32_t offset, uint8_t size, void* wd
 			return -1;
 		}
 		case 4: {
-			uint32_t wdata = 0;
-			mFlinkBus->write32(subdev->base_addr + offset, wdata);
-			return sizeof(wdata);
+			mFlinkBus->write32(subdev->base_addr + offset, *((uint32_t*)wdata));
+			return sizeof(*((uint32_t*)wdata));
 		}
 		default:
 		return -1;

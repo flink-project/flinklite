@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-//static flink_private_data* p_data;
+static flink_private_data* p_data;
 
 /*******************************************************************
  *                                                                 *
@@ -159,7 +159,7 @@ static int get_subdevices(flink_private_data* pdata) {
  * @param file_name: Device file (null terminated array).
  * @return flink_dev*: Pointer to the opened flink device or NULL in case of error.
  */
-flink_dev* flink_open(flink_private_data* p_data) {
+flink_dev* flink_open() {
 // 	flink_dev* dev = 0;
 // 	
 // 	// Allocate memory for flink_t
@@ -194,41 +194,38 @@ flink_dev* flink_open(flink_private_data* p_data) {
  * @param dev: device to close.
  * @return int: 0 on success, -1 in case of failure.
  */
-//int flink_close(flink_dev* dev) {
-	////flink_subdev* subdev = 0;
-	////int i = 0;
-//
-	//if(!validate_flink_dev(dev)) {
-		////flink_error(FLINK_EINVALDEV);
-		//return EXIT_ERROR;
-	//}
-	//
-	//if(dev->subdevices) {
-		//free(dev->subdevices);
-	//}
-	//
-	////close(dev->fd);
-	//free(dev);
-	//return EXIT_SUCCESS;
-//}
-//
-//
-///**
- //* @brief Returns the number of subdevices of a fink device.
- //* @param dev: Device to read
- //* @return int: Number of flink devices or -1 in case of error.
- //*/
-//int flink_get_nof_subdevices(flink_dev* dev) {
-	//
-	//if(!validate_flink_dev(dev)) {
-		////flink_error(FLINK_EINVALDEV);
-		//return EXIT_ERROR;
-	//}
-	//
-	//return dev->nof_subdevices;
-//}
-//
-//
+int flink_close(flink_dev* dev) {
+	flink_subdev* subdev = 0;
+	int i = 0;
+
+	if(!validate_flink_dev(dev)) {
+		return EXIT_ERROR;
+	}
+	
+	if(dev->subdevices) {
+		free(dev->subdevices);
+	}
+	
+	free(dev);
+	return EXIT_SUCCESS;
+}
+
+
+/**
+ * @brief Returns the number of subdevices of a fink device.
+ * @param dev: Device to read
+ * @return int: Number of flink devices or -1 in case of error.
+ */
+int flink_get_nof_subdevices(flink_dev* dev) {
+	
+	if(!validate_flink_dev(dev)) {
+		return EXIT_ERROR;
+	}
+	
+	return dev->nof_subdevices;
+}
+
+
 /**
  * @brief Reset a flink subdevice.
  * @param subdev: Subdevice to reset
@@ -355,65 +352,65 @@ uint8_t flink_subdevice_get_id(flink_subdev* subdev) {
 	return subdev->id;
 }
 
-///**
- //* @brief Get the function of a subdevice.
- //* @param subdev: The subdevice.
- //* @return uint16_t: Returns the function id.
- //*/
-//uint16_t flink_subdevice_get_function(flink_subdev* subdev) {
-	//return subdev->function_id;
-//}
-//
-///**
- //* @brief Get the subfunction of a subdevice.
- //* @param subdev: The subdevice.
- //* @return uint8_t: Returns the subfunction id.
- //*/
-//uint8_t flink_subdevice_get_subfunction(flink_subdev* subdev) {
-	//return subdev->sub_function_id;
-//}
-//
-///**
- //* @brief Get the function version of a subdevice.
- //* @param subdev: The subdevice.
- //* @return uint8_t: Returns the function version.
- //*/
-//uint8_t flink_subdevice_get_function_version(flink_subdev* subdev) {
-	//return subdev->function_version;
-//}
-//
-///**
- //* @brief Get the base address of a subdevice.
- //* @param subdev: The subdevice.
- //* @return uint32_t: Returns the base address.
- //*/
-//uint32_t flink_subdevice_get_baseaddr(flink_subdev* subdev) {
-	//return subdev->base_addr;
-//}
-//
-///**
- //* @brief Get the memory size of a subdevice.
- //* @param subdev: The subdevice.
- //* @return uint32_t: Returns the memory size.
- //*/
-//uint32_t flink_subdevice_get_memsize(flink_subdev* subdev) {
-	//return subdev->mem_size;
-//}
-//
-///**
- //* @brief Get the number of channels of a subdevice.
- //* @param subdev: The subdevice.
- //* @return uint32_t: Returns the number of channels.
- //*/
-//uint32_t flink_subdevice_get_nofchannels(flink_subdev* subdev) {
-	//return subdev->nof_channels;
-//}
-//
-///**
- //* @brief Get the unique id of a subdevice.
- //* @param subdev: The subdevice.
- //* @return uint32_t: Returns the unique id.
- //*/
-//uint32_t flink_subdevice_get_unique_id(flink_subdev* subdev) {
-	//return subdev->unique_id;
-//}
+/**
+ * @brief Get the function of a subdevice.
+ * @param subdev: The subdevice.
+ * @return uint16_t: Returns the function id.
+ */
+uint16_t flink_subdevice_get_function(flink_subdev* subdev) {
+	return subdev->function_id;
+}
+
+/**
+ * @brief Get the subfunction of a subdevice.
+ * @param subdev: The subdevice.
+ * @return uint8_t: Returns the subfunction id.
+ */
+uint8_t flink_subdevice_get_subfunction(flink_subdev* subdev) {
+	return subdev->sub_function_id;
+}
+
+/**
+ * @brief Get the function version of a subdevice.
+ * @param subdev: The subdevice.
+ * @return uint8_t: Returns the function version.
+ */
+uint8_t flink_subdevice_get_function_version(flink_subdev* subdev) {
+	return subdev->function_version;
+}
+
+/**
+ * @brief Get the base address of a subdevice.
+ * @param subdev: The subdevice.
+ * @return uint32_t: Returns the base address.
+ */
+uint32_t flink_subdevice_get_baseaddr(flink_subdev* subdev) {
+	return subdev->base_addr;
+}
+
+/**
+ * @brief Get the memory size of a subdevice.
+ * @param subdev: The subdevice.
+ * @return uint32_t: Returns the memory size.
+ */
+uint32_t flink_subdevice_get_memsize(flink_subdev* subdev) {
+	return subdev->mem_size;
+}
+
+/**
+ * @brief Get the number of channels of a subdevice.
+ * @param subdev: The subdevice.
+ * @return uint32_t: Returns the number of channels.
+ */
+uint32_t flink_subdevice_get_nofchannels(flink_subdev* subdev) {
+	return subdev->nof_channels;
+}
+
+/**
+ * @brief Get the unique id of a subdevice.
+ * @param subdev: The subdevice.
+ * @return uint32_t: Returns the unique id.
+ */
+uint32_t flink_subdevice_get_unique_id(flink_subdev* subdev) {
+	return subdev->unique_id;
+}

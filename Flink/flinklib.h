@@ -50,7 +50,7 @@ typedef struct _flink_private_data flink_private_data;
 
  // ############ Base operations ############
 
-flink_dev* flink_open(flink_private_data* p_data);
+flink_dev* flink_open();
 int        flink_close(flink_dev* dev);
 
 
