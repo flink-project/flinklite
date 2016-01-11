@@ -1,12 +1,12 @@
 /*
- * Flink.c
+ * Main.c
  *
  * Created: 01.12.2015 11:08:03
  * Author : Raphael Lauber
  */ 
 
 #include "board.h"
-#include "flinklib.h"
+#include "flinklib/flinklib.h"
 #include <avr/io.h>
 #include <util/delay.h>
 

@@ -8,38 +8,19 @@
  *                                                                 *
  *******************************************************************
  *                                                                 *
- *  fLink userspace library, validation functions                  *
+ *  SPI bus communication module                                   *
  *                                                                 *
  *******************************************************************/
 
-/** @file valid.c
- *  @brief Contains validation functions for flink.
+/** @file flink_spi.c
+ *  @brief Structure for HAL function pointers.
  *
- *  @author Martin Züger
+ *  @author Raphael Lauber
  */
 
-#include "valid.h"
+#ifndef FLINK_SPI_H_
+#define FLINK_SPI_H_
 
-/**
- * @brief Checks if flink device was opened.
- * @param dev: flink device.
- * @return int: 1 if valid, 0 if not valid.
- */
-int validate_flink_dev(flink_dev* dev) {
-	if(dev != 0) {
-		return 1; // device struct valid
-	}
-	return 0;
-}
+struct flink_bus_ops spi_bus_ops;
 
-/**
- * @brief Checks if flink subdevice belongs to the device.
- * @param dev: flink subdevice.
- * @return int: 1 if valid, 0 if not valid.
- */
-int validate_flink_subdev(flink_subdev* subdev) {
-	if(subdev->parent) {
-		return 1; // subdevice struct valid
-	}
-	return 0;
-}
+#endif /* FLINK_SPI_H_ */

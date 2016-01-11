@@ -1,9 +1,22 @@
-/*
- * hal.c
+/*******************************************************************
+ *   _________     _____      _____    ____  _____    ___  ____    *
+ *  |_   ___  |  |_   _|     |_   _|  |_   \|_   _|  |_  ||_  _|   *
+ *    | |_  \_|    | |         | |      |   \ | |      | |_/ /     *
+ *    |  _|        | |   _     | |      | |\ \| |      |  __'.     *
+ *   _| |_        _| |__/ |   _| |_    _| |_\   |_    _| |  \ \_   *
+ *  |_____|      |________|  |_____|  |_____|\____|  |____||____|  *
+ *                                                                 *
+ *******************************************************************
+ *                                                                 *
+ *  flink userspace library lite, Hardware abstract layer          *
+ *                                                                 *
+ *******************************************************************/
+ 
+/** @file hal.c
+ *  @brief Binding between communication drivers and hardware driver.
  *
- * Created: 15.12.2015 11:51:32
- *  Author: Raphael Lauber
- */ 
+ *  @author Raphael Lauber
+ */
 
 #include "types.h"
 #include "hal.h"
@@ -11,6 +24,7 @@
 #include "flink.h"
 #include "valid.h"
 #include "list.h"
+
 #include <avr/io.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -37,13 +51,10 @@ int flink_read_bit(flink_subdev* subdev, uint32_t offset, uint8_t bit, void* rda
 	
  	// Check data pointer
  	if(rdata == NULL) {
-// 		flink_error(FLINK_ENULLPTR);
  		return EXIT_ERROR;
  	}
-// 	
- 	// Check flink subdevice structure
+
  	if(!validate_flink_subdev(subdev)) {
-// 		flink_error(FLINK_EINVALDEV);
  		return EXIT_ERROR;
  	}
 
@@ -67,13 +78,11 @@ int flink_write_bit(flink_subdev* subdev, uint32_t offset, uint8_t bit, void* wd
 
  	// Check data pointer
  	if(wdata == NULL) {
-// 		flink_error(FLINK_ENULLPTR);
  		return EXIT_ERROR;
  	}
-// 	
+
  	// Check flink subdevice structure
  	if(!validate_flink_subdev(subdev)) {
-// 		flink_error(FLINK_EINVALDEV);
  		return EXIT_ERROR;
  	}
 	 
@@ -94,13 +103,11 @@ size_t flink_write(flink_subdev* subdev, uint32_t offset, uint8_t size, void* wd
 	
  	// Check data pointer
  	if(wdata == NULL) {
-// 		flink_error(FLINK_ENULLPTR);
  		return EXIT_ERROR;
  	}
-// 	
+ 	
  	// Check flink subdevice structure
  	if(!validate_flink_subdev(subdev)) {
-// 		flink_error(FLINK_EINVALDEV);
  		return EXIT_ERROR;
  	}
  	
@@ -135,46 +142,37 @@ size_t flink_write(flink_subdev* subdev, uint32_t offset, uint8_t size, void* wd
  * @return ssize_t: Nof bytes read from the subdevcie or a negative error code.
  */
 size_t flink_read(flink_subdev* subdev, uint32_t offset, uint8_t size, void* rdata) {
-// 	int res = 0;
-// 	ssize_t read_size = 0;
-// 	ioctl_container_t ioctl_arg;
-// 	ioctl_arg.subdevice = subdev->id;
-// 	ioctl_arg.offset    = offset;
-// 	ioctl_arg.size      = size;
-// 	ioctl_arg.data      = rdata;
-// 	
+
 	// Check data pointer
 	if(rdata == NULL) {
-//		flink_error(FLINK_ENULLPTR);
 		return EXIT_ERROR;
 	}
 	
 	// Check flink subdevice structure
 	if(!validate_flink_subdev(subdev)) {
-//		flink_error(FLINK_EINVALDEV);
 		return EXIT_ERROR;
 	}
-// 
 			
-			if (offset > subdev->mem_size) {
-				return -1;
-			}
-			switch(size) {
-				case 1: {
-					// 8 Bit data not supported
-					return -1;
-				}
-				case 2: {
-					// 16 Bit data not supported
-					return -1;
-				}
-				case 4: {
-					*((uint32_t*)rdata) = mFlinkBus->read32(subdev->base_addr + offset);
-					return sizeof(*((uint32_t*)rdata));
-				}
-				default:
-				return -1;
-			}
+	if (offset > subdev->mem_size) {
+		return -1;
+	}
+
+	switch(size) {
+		case 1: {
+			// 8 Bit data not supported
+			return -1;
+		}
+		case 2: {
+			// 16 Bit data not supported
+			return -1;
+		}
+		case 4: {
+			*((uint32_t*)rdata) = mFlinkBus->read32(subdev->base_addr + offset);
+			return sizeof(*((uint32_t*)rdata));
+		}
+		default:
+		return -1;
+	}
 	
 	return 0;
 }

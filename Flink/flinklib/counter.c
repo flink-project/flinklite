@@ -8,7 +8,7 @@
  *                                                                 *
  *******************************************************************
  *                                                                 *
- *  flink userspace library, subdevice type "counter"              *
+ *  flink userspace library lite, subdevice type "counter"         *
  *                                                                 *
  *******************************************************************/
  
@@ -19,29 +19,24 @@
  *  which realizes the function "counter".
  *
  *  @author Martin Züger
+ *  @author Raphael Lauber
  */
 
 #include "flinklib.h"
 #include "types.h"
-//#include "error.h"
-//#include "log.h"
+
 
 int flink_counter_set_mode(flink_subdev* subdev, uint8_t mode) {
-	// TODO
-	//dbg_print("Not yet implemented!");
+	// TODO Not implemented in flinklib
 	return EXIT_ERROR;
 }
 
 int flink_counter_get_count(flink_subdev* subdev, uint32_t channel, uint32_t* data) {
 	uint32_t offset;
 		
-	//dbg_print("Reading counter value from counter %d of subdevice %d\n", channel, subdev->id);
-	
 	offset = HEADER_SIZE + SUBHEADER_SIZE + REGISTER_WITH * channel;
-	//dbg_print("  --> calculated offset is 0x%x!\n", offset);
 	
 	if(flink_read(subdev, offset, REGISTER_WITH, data) != REGISTER_WITH) {
-		//libc_error();
 		return EXIT_ERROR;
 	}
 	return EXIT_SUCCESS;

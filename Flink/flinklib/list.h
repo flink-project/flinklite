@@ -1,13 +1,26 @@
-/*
- * list.h
+/*******************************************************************
+ *   _________     _____      _____    ____  _____    ___  ____    *
+ *  |_   ___  |  |_   _|     |_   _|  |_   \|_   _|  |_  ||_  _|   *
+ *    | |_  \_|    | |         | |      |   \ | |      | |_/ /     *
+ *    |  _|        | |   _     | |      | |\ \| |      |  __'.     *
+ *   _| |_        _| |__/ |   _| |_    _| |_\   |_    _| |  \ \_   *
+ *  |_____|      |________|  |_____|  |_____|\____|  |____||____|  *
+ *                                                                 *
+ *******************************************************************
+ *                                                                 *
+ *  Simple doubly linked list implementation                       *
+ *                                                                 *
+ *******************************************************************/
+ 
+/** @file list.c
+ *  @brief Simple doubly linked list implementation.
  *
- * Created: 22.12.2015 16:49:12
- *  Author: Raphael Lauber
- * 
- * Sources from Linus Torvalds, https://github.com/torvalds/linux
- *    list.h, poisson.h
- */ 
-
+ *  Partial implementation of the linux kernel list.h.
+ *  Sources from Linus Torvalds, https://github.com/torvalds/linux
+ *  list.h, poisson.h
+ *
+ *  @author Raphael Lauber
+ */
 
 #ifndef LIST_H_
 #define LIST_H_

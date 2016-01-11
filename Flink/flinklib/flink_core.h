@@ -8,22 +8,27 @@
  *                                                                 *
  *******************************************************************
  *                                                                 *
- *  fLink userspace library, validation functions                  *
+ *  flink userspace library lite, Core Module                      *
  *                                                                 *
  *******************************************************************/
-
-/** @file valid.h
- *  @brief Contains validation functions for flink.
+ 
+/** @file flink_core.c
+ *  @brief Function prototypes for core module.
  *
- *  @author Martin Züger
+ *  @author Raphael Lauber
  */
 
-#ifndef FLINKLIB_VALID_H_
-#define FLINKLIB_VALID_H_
+#ifndef FLINK_CORE_H_
+#define FLINK_CORE_H_
 
-#include "types.h"
+#include <avr/io.h>
 
-int validate_flink_dev(flink_dev* dev);
-int validate_flink_subdev(flink_subdev* subdev);
+// ############ Forward declarations ############
+struct flink_private_data;
 
-#endif // FLINKLIB_VALID_H_
+
+int flink_core_open(flink_dev*);
+flink_subdev* flink_core_get_subdevice_by_id(flink_dev*, uint8_t);
+int flink_select_subdevice(flink_dev*, uint8_t, uint8_t);
+
+#endif /* FLINK_CORE_H_ */

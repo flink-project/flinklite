@@ -8,7 +8,7 @@
  *                                                                 *
  *******************************************************************
  *                                                                 *
- *  flink userspace library, subdevice function "ppwa"             *
+ *  flink userspace library lite, subdevice function "ppwa"        *
  *                                                                 *
  *******************************************************************/
  
@@ -19,12 +19,11 @@
  *  which realizes the function "ppwa".
  *
  *  @author Urs Graf
+  * @author Raphael Lauber
  */
 
 #include "flinklib.h"
 #include "types.h"
-//#include "error.h"
-//#include "log.h"
 
 /**
  * @brief Reads the base clock of a PPWA subdevice
@@ -33,15 +32,12 @@
  * @return int: 0 on success, -1 in case of failure.
  */
 int flink_ppwa_get_baseclock(flink_subdev* subdev, uint32_t* frequency) {
+	
 	uint32_t offset;
 	
-	//dbg_print("Reading base clock from PPWA subdevice %d\n", subdev->id);
-	
 	offset = HEADER_SIZE + SUBHEADER_SIZE;
-	//dbg_print("  --> calculated offset is 0x%x!\n", offset);
 	
 	if(flink_read(subdev, offset, REGISTER_WITH, frequency) != REGISTER_WITH) {
-		//libc_error();
 		return EXIT_ERROR;
 	}
 	return EXIT_SUCCESS;
@@ -55,15 +51,12 @@ int flink_ppwa_get_baseclock(flink_subdev* subdev, uint32_t* frequency) {
  * @return int: 0 on success, -1 in case of failure.
  */
 int flink_ppwa_get_period(flink_subdev* subdev, uint32_t channel, uint32_t* period) {
+	
 	uint32_t offset;
 	
-	//dbg_print("Reading PPWA period for channel %d on subdevice %d\n", subdev->id, channel);
-	
 	offset = HEADER_SIZE + SUBHEADER_SIZE + PPWA_FIRSTPPWA_OFFSET + REGISTER_WITH * channel;
-	//dbg_print("  --> calculated offset is 0x%x!\n", offset);
 	
 	if(flink_read(subdev, offset, REGISTER_WITH, period) != REGISTER_WITH) {
-		//libc_error();
 		return EXIT_ERROR;
 	}
 	return EXIT_SUCCESS;
@@ -77,15 +70,12 @@ int flink_ppwa_get_period(flink_subdev* subdev, uint32_t channel, uint32_t* peri
  * @return int: 0 on success, -1 in case of failure.
  */
 int flink_ppwa_get_hightime(flink_subdev* subdev, uint32_t channel, uint32_t* hightime) {
+	
 	uint32_t offset;
 		
-	//dbg_print("Reading PPWA hightime for channel %d on subdevice %d\n", subdev->id, channel);
-	
 	offset = HEADER_SIZE + SUBHEADER_SIZE + PPWA_FIRSTPPWA_OFFSET + subdev->nof_channels * REGISTER_WITH + REGISTER_WITH * channel;
-	//dbg_print("  --> calculated offset is 0x%x!\n", offset);
 	
 	if(flink_read(subdev, offset, REGISTER_WITH, hightime) != REGISTER_WITH) {
-		//libc_error();
 		return EXIT_ERROR;
 	}
 	return EXIT_SUCCESS;

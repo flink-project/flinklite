@@ -126,87 +126,90 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ain.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="aout.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="base.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="board.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="board.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="counter.c">
+    <Compile Include="flinklib\ain.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="dio.c">
+    <Compile Include="flinklib\aout.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="flink.h">
+    <Compile Include="flinklib\base.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="flinklib.h">
+    <Compile Include="flinklib\counter.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="flink_core.c">
+    <Compile Include="flinklib\dio.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="flink_core.h">
+    <Compile Include="flinklib\flink.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="flink_spi.c">
+    <Compile Include="flinklib\flinklib.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="flink_spi.h">
+    <Compile Include="flinklib\flink_core.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="hal.c">
+    <Compile Include="flinklib\flink_core.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="hal.h">
+    <Compile Include="flinklib\flink_spi.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="info.c">
+    <Compile Include="flinklib\flink_spi.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="list.h">
+    <Compile Include="flinklib\hal.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ppwa.c">
+    <Compile Include="flinklib\hal.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="pwm.c">
+    <Compile Include="flinklib\info.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI.h">
+    <Compile Include="flinklib\list.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flinklib\ppwa.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flinklib\pwm.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flinklib\subdevtypes.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flinklib\types.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flinklib\valid.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flinklib\valid.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flinklib\wd.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="SPI.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SPI.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="subdevtypes.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="types.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="valid.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="valid.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="wd.c">
-      <SubType>compile</SubType>
-    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="flinklib" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

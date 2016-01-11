@@ -8,7 +8,7 @@
  *                                                                 *
  *******************************************************************
  *                                                                 *
- *  fLink userspace library, subdevice types                       *
+ *  fLink userspace library lite, subdevice types                  *
  *                                                                 *
  *******************************************************************/
 
