@@ -25,8 +25,6 @@
 #include "flinklib.h"
 #include "types.h"
 
-#include <avr/io.h>
-
 /**
  * @brief Reads the resolution of a analog output subdevice
  * @param subdev: Subdevice.

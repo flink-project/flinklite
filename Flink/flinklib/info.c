@@ -25,7 +25,6 @@
 #include "flinklib.h"
 #include "types.h"
 
-#include <avr/io.h>
 #include <string.h>
 
 /**

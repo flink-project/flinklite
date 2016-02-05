@@ -21,8 +21,6 @@
 #ifndef FLINK_CORE_H_
 #define FLINK_CORE_H_
 
-#include <avr/io.h>
-
 // ############ Forward declarations ############
 struct flink_private_data;
 

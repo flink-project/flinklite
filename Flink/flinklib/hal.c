@@ -25,9 +25,6 @@
 #include "valid.h"
 #include "list.h"
 
-#include <avr/io.h>
-#include <stdarg.h>
-#include <stdlib.h>
 
 // Communication bus
 typedef struct flink_bus_ops FlinkBus ;
@@ -59,7 +56,7 @@ int flink_read_bit(flink_subdev* subdev, uint32_t offset, uint8_t bit, void* rda
  	}
 
 	 temp = mFlinkBus->read32(subdev->base_addr + offset);
-	 *((uint32_t*)rdata) = ((temp & (1 << bit)) != 0);
+	  *((uint32_t*)rdata) = ((temp & (1 << bit)) != 0);
 	 
 	return EXIT_SUCCESS;
 }

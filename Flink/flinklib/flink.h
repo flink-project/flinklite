@@ -26,8 +26,6 @@
 #include "list.h"
 #include "types.h"
 
-#include <avr/io.h>
-
 // ############ flink error numbers ############
 #define UNKOWN_ERROR	-1
 #define EINVAL          22

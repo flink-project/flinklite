@@ -24,8 +24,6 @@
 
 #include "flinklib.h"
 
-#include <avr/io.h>
-
 void flink_set_bus(struct flink_bus_ops*);
 int flink_read_bit(flink_subdev*, uint32_t, uint8_t, void*);
 int flink_write_bit(flink_subdev*, uint32_t, uint8_t, void*);

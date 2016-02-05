@@ -17,9 +17,6 @@
 
 #include "types.h"
 
-#include <avr/io.h>
-#include <stddef.h>
-
 // ############ Device handles ############
 
 typedef struct _flink_dev    flink_dev;

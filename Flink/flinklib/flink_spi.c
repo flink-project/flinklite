@@ -27,9 +27,6 @@
 #include "flink_core.h"
 #include "flink_spi.h"
 
-#include <avr/io.h>
-#include <util/delay.h>
-
 uint8_t mSPIAdr[8];
 uint8_t mSPIData[4];
 
@@ -54,6 +51,7 @@ uint32_t spi_read32(uint32_t addr) {
 
 	SPI_WriteRead(mSPIAdr,4,mSPIData,4);
 	val = ((uint32_t)mSPIData[0] << 24) | ((uint32_t)mSPIData[1] << 16) | ((uint32_t)mSPIData[2] << 8) | (mSPIData[3]);
+
 
 	return val;
 }

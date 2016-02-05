@@ -17,7 +17,7 @@
  *
  *  Partial implementation of the linux kernel list.h.
  *  Sources from Linus Torvalds, https://github.com/torvalds/linux
- *  list.h, poisson.h
+ *  list.h, poisson.h, compiler.h
  *
  *  @author Raphael Lauber
  */
@@ -27,14 +27,16 @@
 
 #include <stddef.h>
 
+#define WRITE_ONCE(x, val) x=(val)
+
  /*
  * These are non-NULL pointers that will result in page faults
  * under normal circumstances, used to verify that nobody uses
  * non-initialized list entries.
  */
- #define POISON_POINTER_DELTA 0
- #define LIST_POISON1  ((void *) 0x100 + POISON_POINTER_DELTA)
- #define LIST_POISON2  ((void *) 0x200 + POISON_POINTER_DELTA)
+#define POISON_POINTER_DELTA 0
+#define LIST_POISON1  ((void *) 0x100 + POISON_POINTER_DELTA)
+#define LIST_POISON2  ((void *) 0x200 + POISON_POINTER_DELTA)
  
 struct list_head {
 	struct list_head *next, *prev;
@@ -71,7 +73,8 @@ static inline void __list_add(struct list_head *newlist,
 	next->prev = newlist;
 	newlist->next = next;
 	newlist->prev = prev;
-	prev->next = newlist;
+	WRITE_ONCE(prev->next, newlist);
+	//prev->next = newlist;
 }
 
 /*

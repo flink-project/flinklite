@@ -20,7 +20,7 @@
  *  @author Martin Züger
  */
 
-#include <avr/io.h>
+#include "flink.h"
 
 const char* flink_subdev_function_strings[] = {
 	"Info",                         // 0x00

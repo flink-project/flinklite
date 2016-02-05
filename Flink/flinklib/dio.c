@@ -26,8 +26,6 @@
 #include "types.h"
 #include "hal.h"
 
-#include <avr/io.h>
-
 /**
  * @brief Configures a channel as input or output
  * @param subdev: Subdevice containing the channel.

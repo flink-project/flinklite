@@ -30,7 +30,6 @@
 #include "flink_spi.h"
 #include "hal.h"
 
-#include <avr/io.h>
 #include <stdlib.h>
 #include <string.h>
 
