@@ -25,7 +25,7 @@
 #include "flink_core.h"
 #include "flink_avalon.h"
 #ifdef AVALON
-	#include "io.h"
+//	#include "io.h"
 #endif 
 
 #include <stdlib.h>
@@ -46,7 +46,7 @@ uint32_t avalon_read32(uint32_t addr) {
 
 	uint32_t val = 0;
 	#ifdef AVALON
-		val = IORD(addr,0); //_32DIRECT(addr, 0);
+		//val = IORD(addr,0); //_32DIRECT(addr, 0);
 	#endif 
 	return val;
 }
@@ -63,7 +63,7 @@ int avalon_write16(uint32_t addr, uint16_t val) {
 
 int avalon_write32(uint32_t addr, uint32_t val) {
 	#ifdef AVALON
-	IOWR(addr,0,val); //_32DIRECT(addr,0,val);
+	//IOWR(addr,0,val); //_32DIRECT(addr,0,val);
 	#endif 
 	return 0;
 }

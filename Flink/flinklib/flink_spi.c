@@ -21,7 +21,7 @@
 
 #include "types.h"
 #include "flink.h"
-#include "..\SPI.h"
+#include "../avr_example/SPI.h"
 #include "hal.h"
 #include "list.h"
 #include "flink_core.h"
