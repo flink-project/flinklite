@@ -27,7 +27,6 @@
 #include "flink.h"
 #include "list.h"
 #include "flink_core.h"
-#include "flink_spi.h"
 #include "hal.h"
 
 #include <stdlib.h>
@@ -64,10 +63,10 @@ void flink_device_init(flink_dev* fdev, struct flink_bus_ops* bus_ops) {
 }
 
 
-int flink_core_open(flink_dev* fdev) {
+int flink_core_open(flink_dev* fdev,struct flink_bus_ops* bus_channel) {
 	//fdev = flink_device_alloc();
-	flink_set_bus(&spi_bus_ops);
-	flink_device_init(fdev, &spi_bus_ops); // TODO: Use other bus_ops for other channel
+	flink_set_bus(bus_channel);
+	flink_device_init(fdev, bus_channel); // TODO: Use other bus_ops for other channel
 	flink_device_add(fdev);	// creates device nodes
 	return 0;
 }

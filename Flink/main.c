@@ -7,6 +7,8 @@
 
 #include "board.h"
 #include "flinklib/flinklib.h"
+#include "flinklib/flink_spi.h"
+#include "flinklib/flink.h"
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -24,7 +26,7 @@ int main(void)
 	
 	initBoard();
 	
-	dev = flink_open();
+	dev = flink_open(&spi_bus_ops);
 	
 	subdev = flink_get_subdevice_by_unique_id(dev, 3); // info device
 	//subdev = flink_get_subdevice_by_id(dev, 1); // info device

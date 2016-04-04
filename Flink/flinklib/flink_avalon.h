@@ -8,26 +8,24 @@
  *                                                                 *
  *******************************************************************
  *                                                                 *
- *  flink userspace library lite, Core Module                      *
+ *  NIOS II Avalon bus communication module                        *
  *                                                                 *
  *******************************************************************/
- 
-/** @file flink_core.c
- *  @brief Function prototypes for core module.
+
+/** @file flink_avalon.h
+ *  @brief Structure for HAL function pointers.
  *
  *  @author Raphael Lauber
  */
 
-#ifndef FLINK_CORE_H_
-#define FLINK_CORE_H_
+#ifndef FLINK_AVALON_H_
+#define FLINK_AVALON_H_
 
 
-// ############ Forward declarations ############
-struct flink_private_data;
+#ifndef AVALON
+	#define AVALON
+#endif
 
+struct flink_bus_ops avalon_bus_ops;
 
-int flink_core_open(flink_dev*,struct flink_bus_ops*);
-flink_subdev* flink_core_get_subdevice_by_id(flink_dev*, uint8_t);
-int flink_select_subdevice(flink_dev*, uint8_t, uint8_t);
-
-#endif /* FLINK_CORE_H_ */
+#endif /* FLINK_AVALON_H_ */

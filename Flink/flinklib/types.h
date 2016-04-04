@@ -24,7 +24,8 @@
 #define FLINKLIB_TYPES_H_
 
 #include "list.h"
-#include <avr/io.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 // ############ Device handles ############
 typedef struct _flink_dev    flink_dev;

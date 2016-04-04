@@ -16,6 +16,7 @@
 #define FLINKLIB_H_
 
 #include "types.h"
+#include "flink.h"
 
 // ############ Device handles ############
 
@@ -24,7 +25,7 @@ typedef struct _flink_subdev flink_subdev;
 
 // ############ Base operations ############
 
-flink_dev* flink_open();
+flink_dev* flink_open(struct flink_bus_ops* bus_channel);
 int        flink_close(flink_dev* dev);
 
 // ############ Low level operations ############

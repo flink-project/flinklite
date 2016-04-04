@@ -102,13 +102,13 @@ static int get_subdevices(flink_dev* fdev) {
  * @brief Opens a flink device file
  * @return flink_dev*: Pointer to the opened flink device or NULL in case of error.
  */
-flink_dev* flink_open() {
+flink_dev* flink_open(struct flink_bus_ops* bus_channel) {
 
 	// Allocate memory for private data structure
  	m_fedv = malloc(sizeof(flink_dev));
 
 	// Initialize structure
-	flink_core_open(m_fedv);
+	flink_core_open(m_fedv,bus_channel);
 
 	if(get_subdevices(m_fedv) < 0) { // reading subdevices failed
 		return 0;
