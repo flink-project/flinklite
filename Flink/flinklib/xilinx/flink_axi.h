@@ -22,8 +22,7 @@ int axi_write32(uint32_t addr, uint32_t val);
 
 uint32_t axi_address_space_size(flink_dev* fdev);
 
-uint32_t axi_address_base_address(flink_dev* fdev);
-
+void set_axi_base_address(uint32_t add);
 
 struct flink_bus_ops axi_bus_ops = {
 	.read8              = axi_read8,
@@ -33,7 +32,6 @@ struct flink_bus_ops axi_bus_ops = {
 	.write16            = axi_write16,
 	.write32            = axi_write32,
 	.address_space_size = axi_address_space_size,
-	.address_base_address = axi_address_base_address,
 };
 
 

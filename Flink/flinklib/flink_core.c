@@ -139,7 +139,7 @@ static unsigned int scan_for_subdevices(flink_dev* fdev) {
 			// if subdevice is info subdevice -> read memory length
 			if(new_subdev->function_id == INFO_FUNCTION_ID) {
 				total_mem_size = fdev->bus_ops->read32(current_address + MAIN_HEADER_SIZE + SUB_HEADER_SIZE);
-				last_address = total_mem_size - 1; //Todo: probably a bug in FlinkVHDL
+				last_address = current_address + total_mem_size; //Todo: probably a bug in FlinkVHDL
 			}
 
 			// Increment address counter and reset temp variables

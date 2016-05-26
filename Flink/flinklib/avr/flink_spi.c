@@ -19,12 +19,11 @@
  *  @author Raphael Lauber
  */
 
-#include "types.h"
-#include "flink.h"
-#include "../avr_example/SPI.h"
-#include "hal.h"
-#include "list.h"
-#include "flink_core.h"
+#include "../types.h"
+#include "../flink.h"
+#include "../hal.h"
+#include "../list.h"
+#include "../flink_core.h"
 #include "flink_spi.h"
 
 uint8_t mSPIAdr[8];
@@ -49,7 +48,7 @@ uint32_t spi_read32(uint32_t addr) {
 	mSPIAdr[2] = (addr & 0x0000ff00)  >> 8;
 	mSPIAdr[3] = (addr & 0x000000ff);
 
-	SPI_WriteRead(mSPIAdr,4,mSPIData,4);
+	//SPI_WriteRead(mSPIAdr,4,mSPIData,4);
 	val = ((uint32_t)mSPIData[0] << 24) | ((uint32_t)mSPIData[1] << 16) | ((uint32_t)mSPIData[2] << 8) | (mSPIData[3]);
 
 
@@ -79,7 +78,7 @@ int spi_write32(uint32_t addr, uint32_t val) {
 	mSPIAdr[6] = (val & 0x0000ff00)  >> 8;
 	mSPIAdr[7] = (val & 0x000000ff);
 	
-	SPI_Write(mSPIAdr,8);
+	//SPI_Write(mSPIAdr,8);
 	
 	return 0;
 }
